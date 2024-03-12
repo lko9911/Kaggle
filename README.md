@@ -1,9 +1,9 @@
-캐글 프로젝트 업로드 (임시)
+#### 캐글 프로젝트 업로드 (임시 문서)
 
-데이터 셋 출처  
+## 데이터 셋 출처  
 
 ### Data Analytics. <br>
-https://www.kaggle.com/datasets/raphaelmanayon/temperature-and-ice-cream-sales
+https://www.kaggle.com/datasets/raphaelmanayon/temperature-and-ice-cream-sales <br>
 
 ### EDA. <br>
 https://www.kaggle.com/datasets/dhavalpatel555/us-stock-market-2020-to-2024 <br>
