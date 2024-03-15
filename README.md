@@ -4,6 +4,7 @@
 
 ### Data Analytics. <br>
 temperature-and-ice-cream-sales : https://www.kaggle.com/datasets/raphaelmanayon/temperature-and-ice-cream-sales <br>
+weight-training-data-analysis-and-modeling : https://www.kaggle.com/datasets/jollychappies/weight-training
 
 ### EDA. <br>
 us-stock-market : https://www.kaggle.com/datasets/dhavalpatel555/us-stock-market-2020-to-2024 <br>
