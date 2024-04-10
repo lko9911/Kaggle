@@ -34,7 +34,7 @@ def evaluate_models(X, y):
         y_pred = pipeline.predict(X)
         rmse = mean_squared_error(y, y_pred, squared=False)
         r2 = r2_score(y, y_pred)
-        results[name] = {'RMSE': rmse, 'R^2': r2}
+        results[name] = {'RMSE': rmse, 'R2': r2}
     
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
     results_df.rename(columns={'index': 'Model'}, inplace=True)
