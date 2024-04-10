@@ -11,4 +11,4 @@ job-placement-dataset : https://www.kaggle.com/datasets/mahad049/job-placement-d
 Coffee Shop Sales Analysis : https://www.kaggle.com/datasets/divu2001/coffee-shop-sales-analysis <br><br>
 🔭 코드 설명 (한글 & 주피터 노트북) 🔭 : https://dbcode.tistory.com/
 
-### Compare_Regression_models : kaggle 모듈이며 sklearn의 모든 회귀 분석을 비교하는 py파일입니다. 
+### Compare_Regression_models : kaggle 프로젝트에서 사용하는 모듈이며 sklearn의 모든 회귀 분석을 비교하는 py파일입니다. 
