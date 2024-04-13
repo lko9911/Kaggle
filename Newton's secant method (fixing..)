@@ -1,0 +1,16 @@
+import numpy as np
+
+def newton_method(X, y, num_iters=10):
+    # X는 설계 행렬, y는 목표 변수 벡터
+    m, n = X.shape
+    theta = np.zeros(n)  # 파라미터 초기화
+
+    for i in range(num_iters):
+        predictions = X @ theta
+        error = predictions - y
+        gradient = (1/m) * X.T @ error  # 그래디언트
+        hessian = (1/m) * X.T @ X       # 헤시안
+
+        theta -= np.linalg.inv(hessian) @ gradient  # 파라미터 업데이트
+
+    return theta
