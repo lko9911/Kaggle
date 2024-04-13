@@ -1,11 +1,13 @@
-## :star: 데이터 셋 출처  
+## Kaggle 항목 설명  
 
 ### Data Analytics. (분석 자료_캐글 업로드) <br>
+:star: 데이터 셋 출처  <br>
 temperature-and-ice-cream-sales : https://www.kaggle.com/datasets/raphaelmanayon/temperature-and-ice-cream-sales <br>
 weight-training-data-analysis-and-modeling : https://www.kaggle.com/datasets/jollychappies/weight-training <br>
 Full Electric Vehicle Dataset 2024 : https://www.kaggle.com/datasets/sahirmaharajj/electric-vehicle-population
 
 ### EDA.(분석 자료_ 캐글 업로드) <br>
+:star: 데이터 셋 출처  <br>
 us-stock-market : https://www.kaggle.com/datasets/dhavalpatel555/us-stock-market-2020-to-2024 <br>
 job-placement-dataset : https://www.kaggle.com/datasets/mahad049/job-placement-dataset <br>
 Coffee Shop Sales Analysis : https://www.kaggle.com/datasets/divu2001/coffee-shop-sales-analysis <br><br>
