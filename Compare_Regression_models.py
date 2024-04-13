@@ -8,10 +8,12 @@ from sklearn.neighbors import KNeighborsRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
-import warnings
 
 def evaluate_models(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
     models = [
         ('Linear Regression', LinearRegression()),
         ('Ridge Regression', Ridge()),
@@ -30,10 +32,10 @@ def evaluate_models(X, y):
 
     results = {}
     for name, pipeline in pipelines.items():
-        pipeline.fit(X, y)
-        y_pred = pipeline.predict(X)
-        rmse = mean_squared_error(y, y_pred, squared=False)
-        r2 = r2_score(y, y_pred)
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
         results[name] = {'RMSE': rmse, 'R2': r2}
     
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
