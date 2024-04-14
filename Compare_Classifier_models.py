@@ -11,14 +11,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-def convert_to_binary(target):
-    threshold = target.mean()
-    return (target > threshold).astype(int)
-
 def evaluate_models(X, y):
     y_binary = convert_to_binary(y)
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y_binary, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     models = [
         ('Logistic Regression', LogisticRegression()),
