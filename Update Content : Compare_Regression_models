@@ -95,7 +95,10 @@ def evaluate_models(X, y):
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
     results_df.rename(columns={'index': 'Model'}, inplace=True)
 
-    return results_df, trained_models
+    return results_df
+
+def show_models(trained_models):
+    return trained_models
 
 def plot_feature_importance(model_name, model, n_features, feature_names):
     if hasattr(model, 'feature_importances_'):
@@ -112,12 +115,15 @@ def plot_feature_importance(model_name, model, n_features, feature_names):
     else:
         print(f"Model {model_name} does not support feature importance.")
 
-업데이트 내용  
+# 업데이트 내용  
 1. 'R2' 를 'R²' 로 수정 
+
 2. plot_feature_importance() 함수 추가 <중요도 변수 출력>
 # 사용 예시
 df, trained_models = evaluate_models(X, y)
 model_name = 'Random Forest Regressor'
 plot_feature_importance(model_name, trained_models[model_name], 10, X.columns)
 
+3. show_models() 함수 추가 <학습에 사용된 함수 이름 출력>
+2번 함수의 model_name 확인을 위한 함수
 =======================================================================================================
