@@ -51,11 +51,13 @@ def plot_feature_importance(model_name, model, n_features, feature_names):
     if hasattr(model, 'feature_importances_'):
         importances = model.feature_importances_
         indices = np.argsort(importances)[-n_features:]
-        plt.figure(figsize=(8, 5))
-        sns.barplot(y=feature_names[indices], x=importances[indices])
-        plt.title(f'Top {n_features} Feature Importances for {model_name}')
-        plt.xlabel('Feature Importance')
-        plt.ylabel('Feature Name')
+        plt.figure(figsize=(12, 6))
+        sns.barplot(y=feature_names[indices], x=importances[indices], palette="viridis")
+        plt.title(f'Top {n_features} Feature Importances for {model_name}', fontsize=18)
+        plt.xticks(rotation=0, fontsize=12)
+        plt.xlabel('Feature', fontsize=14)
+        plt.ylabel('Importance', fontsize=14)
+        plt.grid(linestyle='--')
         plt.show()
     else:
         print(f"Model {model_name} does not support feature importance.")
