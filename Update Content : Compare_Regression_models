@@ -1,35 +1,33 @@
-# Ver.1
+# Ver_1
 
 import pandas as pd
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
-from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
+from xgboost import XGBRegressor
+from lightgbm import LGBMRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-def convert_to_binary(target):
-    threshold = target.mean()
-    return (target > threshold).astype(int)
+from sklearn.metrics import mean_squared_error, r2_score
 
 def evaluate_models(X, y):
-    y_binary = convert_to_binary(y)
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y_binary, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     models = [
-        ('Logistic Regression', LogisticRegression()),
-        ('Decision Tree Classifier', DecisionTreeClassifier()),
-        ('Random Forest Classifier', RandomForestClassifier()),
-        ('Support Vector Classifier', SVC()),
-        ('K-Nearest Neighbors Classifier', KNeighborsClassifier()),
-        ('XGBoost Classifier', XGBClassifier()),
-        ('LightGBM Classifier', LGBMClassifier())
+        ('Linear Regression', LinearRegression()),
+        ('Ridge Regression', Ridge()),
+        ('Lasso Regression', Lasso()),
+        ('ElasticNet', ElasticNet()),
+        ('Decision Tree Regressor', DecisionTreeRegressor()),
+        ('Random Forest Regressor', RandomForestRegressor()),
+        ('Support Vector Machine Regressor', SVR()),
+        ('K-Nearest Neighbors Regressor', KNeighborsRegressor()),
+        ('Gradient Boosting Regressor', GradientBoostingRegressor()),
+        ('XGBoost Regressor', XGBRegressor()),
+        ('LightGBM Regressor', LGBMRegressor())
     ]
 
     pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
@@ -38,8 +36,9 @@ def evaluate_models(X, y):
     for name, pipeline in pipelines.items():
         pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)
-        accuracy = accuracy_score(y_test, y_pred)
-        results[name] = {'Accuracy': accuracy}
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        results[name] = {'RMSE': rmse, 'R²': r2}
     
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
     results_df.rename(columns={'index': 'Model'}, inplace=True)
@@ -47,5 +46,78 @@ def evaluate_models(X, y):
     return results_df
 
 =======================================================================================================
-# Ver.2 
+# Ver_1.1 
 
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
+from xgboost import XGBRegressor
+from lightgbm import LGBMRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+
+def evaluate_models(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    models = [
+        ('Linear Regression', LinearRegression()),
+        ('Ridge Regression', Ridge()),
+        ('Lasso Regression', Lasso()),
+        ('ElasticNet', ElasticNet()),
+        ('Decision Tree Regressor', DecisionTreeRegressor()),
+        ('Random Forest Regressor', RandomForestRegressor()),
+        ('Support Vector Machine Regressor', SVR()),
+        ('K-Nearest Neighbors Regressor', KNeighborsRegressor()),
+        ('Gradient Boosting Regressor', GradientBoostingRegressor()),
+        ('XGBoost Regressor', XGBRegressor()),
+        ('LightGBM Regressor', LGBMRegressor())
+    ]
+
+    pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
+
+    results = {}
+    trained_models = {}
+    for name, pipeline in pipelines.items():
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        results[name] = {'RMSE': rmse, 'R²': r2}
+        trained_models[name] = pipeline.named_steps[name]
+
+    results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
+    results_df.rename(columns={'index': 'Model'}, inplace=True)
+
+    return results_df, trained_models
+
+def plot_feature_importance(model_name, model, n_features, feature_names):
+    if hasattr(model, 'feature_importances_'):
+        importances = model.feature_importances_
+        indices = np.argsort(importances)[-n_features:]
+        plt.figure(figsize=(12, 6))
+        sns.barplot(y=feature_names[indices], x=importances[indices], palette="viridis")
+        plt.title(f'Top {n_features} Feature Importances for {model_name}', fontsize=18)
+        plt.xticks(rotation=0, fontsize=12)
+        plt.xlabel('Feature', fontsize=14)
+        plt.ylabel('Importance', fontsize=14)
+        plt.grid(linestyle='--')
+        plt.show()
+    else:
+        print(f"Model {model_name} does not support feature importance.")
+
+업데이트 내용  
+1. 'R2' 를 'R²' 로 수정 
+2. plot_feature_importance() 함수 추가 <중요도 변수 출력>
+# 사용 예시
+df, trained_models = evaluate_models(X, y)
+model_name = 'Random Forest Regressor'
+plot_feature_importance(model_name, trained_models[model_name], 10, X.columns)
+
+=======================================================================================================
