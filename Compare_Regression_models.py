@@ -47,7 +47,7 @@ def evaluate_models(X, y):
 
     return results_df
     
-def show_models(trained_models)
+def show_models(trained_models):
     return trained_models
 
 def plot_feature_importance(model_name, model, n_features, feature_names):
