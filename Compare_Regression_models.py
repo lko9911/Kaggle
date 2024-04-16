@@ -45,7 +45,10 @@ def evaluate_models(X, y):
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
     results_df.rename(columns={'index': 'Model'}, inplace=True)
 
-    return results_df, trained_models
+    return results_df
+    
+def show_models(trained_models)
+    return trained_models
 
 def plot_feature_importance(model_name, model, n_features, feature_names):
     if hasattr(model, 'feature_importances_'):
