@@ -1,4 +1,6 @@
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.tree import DecisionTreeRegressor
@@ -31,14 +33,29 @@ def evaluate_models(X, y):
     pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
 
     results = {}
+    trained_models = {}
     for name, pipeline in pipelines.items():
         pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)
         rmse = mean_squared_error(y_test, y_pred, squared=False)
         r2 = r2_score(y_test, y_pred)
         results[name] = {'RMSE': rmse, 'R²': r2}
-    
+        trained_models[name] = pipeline.named_steps[name]
+
     results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
     results_df.rename(columns={'index': 'Model'}, inplace=True)
 
-    return results_df
+    return results_df, trained_models
+
+def plot_feature_importance(model_name, model, n_features, feature_names):
+    if hasattr(model, 'feature_importances_'):
+        importances = model.feature_importances_
+        indices = np.argsort(importances)[-n_features:]
+        plt.figure(figsize=(8, 5))
+        sns.barplot(y=feature_names[indices], x=importances[indices])
+        plt.title(f'Top {n_features} Feature Importances for {model_name}')
+        plt.xlabel('Feature Importance')
+        plt.ylabel('Feature Name')
+        plt.show()
+    else:
+        print(f"Model {model_name} does not support feature importance.")
