@@ -13,7 +13,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
-def evaluate_models(X, y):
+def show_models(trained_models):
+    return trained_models
+
+def evaluate_models_all(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     models = [
@@ -46,9 +49,60 @@ def evaluate_models(X, y):
     results_df.rename(columns={'index': 'Model'}, inplace=True)
 
     return results_df
-    
-def show_models(trained_models):
-    return trained_models
+
+def evaluate_models_LRLE(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    models = [
+        ('Linear Regression', LinearRegression()),
+        ('Ridge Regression', Ridge()),
+        ('Lasso Regression', Lasso()),
+        ('ElasticNet', ElasticNet()),
+    ]
+
+    pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
+
+    results = {}
+    trained_models = {}
+    for name, pipeline in pipelines.items():
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        results[name] = {'RMSE': rmse, 'R²': r2}
+        trained_models[name] = pipeline.named_steps[name]
+
+    results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
+    results_df.rename(columns={'index': 'Model'}, inplace=True)
+
+    return results_df
+
+def evaluate_models_RGXL(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    models = [
+        ('Random Forest Regressor', RandomForestRegressor()),
+        ('Gradient Boosting Regressor', GradientBoostingRegressor()),
+        ('XGBoost Regressor', XGBRegressor()),
+        ('LightGBM Regressor', LGBMRegressor())
+    ]
+
+    pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
+
+    results = {}
+    trained_models = {}
+    for name, pipeline in pipelines.items():
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        results[name] = {'RMSE': rmse, 'R²': r2}
+        trained_models[name] = pipeline.named_steps[name]
+
+    results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
+    results_df.rename(columns={'index': 'Model'}, inplace=True)
+
+    return results_df
 
 def plot_feature_importance(model_name, model, n_features, feature_names):
     if hasattr(model, 'feature_importances_'):
