@@ -252,4 +252,56 @@ def evaluate_models_deep(X, y):
     return results_df
 
 # test code
+def evaluate_models_all(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    models = [
+        ('MLP',model_MLP())
+        ('RNN',model_RNN())
+        ('LSTM',model_LSTM())
+ 1  ]
+
+    pipelines = {name: Pipeline([('scaler', StandardScaler()), (name, model)]) for name, model in models}
+
+    results = {}
+    trained_models = {}
+    for name, pipeline in pipelines.items():
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        results[name] = {'RMSE': rmse, 'R²': r2}
+        trained_models[name] = pipeline.named_steps[name]
+
+    results_df = pd.DataFrame.from_dict(results, orient='index').reset_index()
+    results_df.rename(columns={'index': 'Model'}, inplace=True)
+
+    return results_df
+
+    model_MLP = Sequential([
+        Input(shape=(X_train.shape[1],)),
+        Dense(64, activation='relu'),
+        Dropout(0.5),
+        Dense(32, activation='relu'),
+        Dropout(0.5),
+        Dense(1)  
+    ])
+
+    model_RNN = Sequential([
+    Input(shape=(X_train_rnn.shape[1], X_train_rnn.shape[2])),  
+    SimpleRNN(64, activation='relu'),
+    Dropout(0.5),
+    Dense(32, activation='relu'),
+    Dropout(0.5),
+    Dense(1)  
+]   )
+    
+    model_LSTM = Sequential([
+    Input(shape=(X_train_lstm.shape[1], X_train_lstm.shape[2])),  
+    LSTM(64, activation='relu'),
+    Dropout(0.5),
+    Dense(32, activation='relu'),
+    Dropout(0.5),
+    Dense(1)  
+    ])
 
