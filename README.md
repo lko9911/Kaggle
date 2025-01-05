@@ -1,3 +1,4 @@
-# 🔖 Kaggle 항목 설명  
+# 🔖 Kaggle 
 
-## Data Analytics. (분석 자료_캐글 업로드) <br>
+### 1. Data Analytics. (EDA + Modeling) <br>
+### 2. EDA. (Only EDA : Data Distribution, Correlation Analysis)
