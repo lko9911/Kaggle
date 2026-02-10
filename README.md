@@ -1,5 +1,8 @@
-# 🔖 Kaggle 
+## 🔖 Kaggle
 
-### 1. Data Analytics. (EDA + Modeling) <br>
-### 2. EDA. (Only EDA : Data Distribution, Correlation Analysis)
-### 3. 데이터 분석 프로젝트
+This project leverages datasets provided by **Kaggle** for training and evaluation.
+
+- **Purpose**: Model training, validation, and performance benchmarking
+- **Usage**: Download project 'ipynb' files
+
+> ⚠️ Please make sure to comply with the dataset license and Kaggle’s terms of use.
