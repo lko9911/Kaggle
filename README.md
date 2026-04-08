@@ -1,6 +1,5 @@
 ## 🔖 Kaggle
 ###
----
 This project leverages datasets provided by **Kaggle** for training and evaluation.
 
 - **Purpose**: Model training, validation, and performance benchmarking
